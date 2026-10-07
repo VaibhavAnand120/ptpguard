@@ -6,6 +6,7 @@
 # Python caches and bytecode
 __pycache__/
 *.py[cod]
+*.pyc
 *$py.class
 *.so
 .pytest_cache/
@@ -29,5 +30,5 @@ desktop.ini
 *.swp
 *.swo
 
-# Large generated data / logs if any
+# Large generated logs
 *.log

@@ -18,7 +18,7 @@
 
 In Indian retail debt collection (credit cards, personal loans, microfinance, MSME), **over 50% to 65% of recorded Promises to Pay (PTP) break**. 
 
-A broken PTP causes severe compounding losses:
+A broken PTP causes severe compounding losses across the recovery lifecycle:
 1. **Wasted Parking Window:** The borrower account is frozen for 7 days awaiting payment, causing 7 critical recovery days to be lost.
 2. **Delinquency Escalation:** Unreached accounts roll forward into higher DPD delinquency buckets (e.g. 30+ to 60+ DPD).
 3. **Channel Cost Asymmetry:** Escalation forces lenders to switch from cheap digital channels (SMS/WhatsApp at ₹0.50, AI Voice Bots at ₹2.00) to expensive human tele-callers (₹25/connect) and physical field visits (₹250/visit).
@@ -222,7 +222,47 @@ Open **`http://127.0.0.1:8000`** in your browser.
 
 ---
 
-## 🛡️ 10. Regulatory & Compliance Guarantees
+## 📁 10. Project Structure
+
+```text
+ptpguard/
+├── server.py                        # FastAPI live server (/api/chat-turn, /api/analyze, /api/scenarios, WebSockets)
+├── gemini_classifier.py             # Google Gemini Flash Neural Cascade & Unscripted Dialogue Copilot
+├── ptp_engine.py                    # Multimodal Feature Extractor, Platt Calibration, Bayesian Prior
+├── synthetic_generator.py           # 1,200 multi-modal synthetic collection calls generator
+├── counterfactual_simulator.py      # Off-Policy Evaluation (OPE) RCT recovery simulator
+├── evaluate_benchmarks.py           # Evaluation suite (ROC-AUC, ECE, Confusion Matrix, Latency)
+├── test_voice_inference.py          # Standalone voice inference tester
+│
+├── app/                             # Core modular application package
+│   ├── main.py                      # FastAPI entrypoint
+│   ├── config.py                    # App configuration
+│   ├── schemas.py                   # Pydantic data models
+│   ├── state.py                     # 10-dimensional signed evidence tracker
+│   ├── scoring.py                   # Platt & Soft-saturation scoring engine
+│   ├── policy.py                    # RBI compliance & action nudges
+│   ├── semantic/                    # Semantic providers (Gemini, Ollama, Rules)
+│   └── voice/                       # Audio queue, VAD, alignment & NVIDIA NeMo Sortformer diarization
+│
+├── static/
+│   ├── index.html                   # Interactive Live Cockpit (Waveform, Speedometer, Supervisor Audit)
+│   └── reports/                     # Diagnostic curves (ROC, calibration, confusion matrix)
+│
+├── data/                            # Synthetic calls & simulation datasets
+├── models/                          # Serialized trained models
+├── reports/                         # High-res benchmark plots & evaluation summaries
+│
+├── requirements.txt                 # Python dependencies
+├── requirements-optional.txt        # Optional GPU/torch dependencies
+├── Dockerfile                       # Container definition
+├── docker-compose.yml               # Container orchestration
+├── PITCH_DECK_GUIDE.md              # 10-Slide presentation guide for competition judges
+└── README.md                        # Master documentation
+```
+
+---
+
+## 🛡️ 11. Regulatory & Compliance Guarantees
 
 1. **RBI Fair Practices Code:**
    * Hardship detection operates with an asymmetric loss function ($10\times$ penalty).
