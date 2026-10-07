@@ -114,11 +114,16 @@ def classify_ptp(state: ConversationState) -> str:
     if norm.get("third_party", 0.0) < THRESHOLDS["strong_negative"]:
         return "THIRD_PARTY_PROMISE"
 
-    # 3. Agent pushed commitment without borrower confirmation
-    if (
-        norm.get("agent_pressure", 0.0) < THRESHOLDS["strong_negative"]
-        and norm.get("confirmation", 0.0) <= 0.0
-    ):
+    # 3. Agent pushed commitment or agent unilaterally recorded
+    is_agent_pushed = (
+        (norm.get("agent_pressure", 0.0) < THRESHOLDS["strong_negative"] and norm.get("confirmation", 0.0) <= 0.0)
+        or (
+            (state.agent_proposed_amount is not None or state.agent_proposed_date is not None or norm.get("agent_pressure", 0.0) < -0.15)
+            and (state.borrower_stated_amount is None and state.borrower_stated_date is None)
+            and raw.get("commitment", 0.0) <= 0.5
+        )
+    )
+    if is_agent_pushed:
         return "AGENT_RECORDED_OR_PUSHED"
 
     # 4. Escape / evasion promise

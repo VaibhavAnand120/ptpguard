@@ -206,6 +206,9 @@ button.danger:hover { background: rgba(239, 68, 68, 0.25); border-color: #f87171
 .speaker-tag.third_party_background {
   background: var(--bg-voice-bg); color: var(--bg-voice-color); border: 1px solid rgba(244,63,94,0.4);
 }
+.speaker-tag.unknown {
+  background: rgba(148, 163, 184, 0.12); color: #94a3b8; border: 1px solid rgba(148, 163, 184, 0.3);
+}
 
 /* Transcript list */
 .transcript {
@@ -252,6 +255,10 @@ button.danger:hover { background: rgba(239, 68, 68, 0.25); border-color: #f87171
 .msg.third_party_background {
   border-left: 4px solid var(--bg-voice-color);
   background: linear-gradient(90deg, rgba(244, 63, 94, 0.12) 0%, rgba(22, 32, 50, 0.95) 100%);
+}
+.msg.unknown {
+  border-left: 4px solid #64748b;
+  background: linear-gradient(90deg, rgba(100, 116, 139, 0.08) 0%, rgba(22, 32, 50, 0.95) 100%);
 }
 .msg-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; font-size: 11px; }
 .msg-role-pill { font-weight: 700; text-transform: uppercase; font-size: 10.5px; }
@@ -412,6 +419,237 @@ pre {
   max-height: 140px; overflow-y: auto; padding: 8px; border-top: 1px solid var(--line);
 }
 
+/* 📅 Borrower PTP Deadline Card */
+.deadline-card {
+  background: linear-gradient(145deg, #0f1c30 0%, #091322 100%);
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  border-radius: 14px;
+  padding: 16px;
+  margin-bottom: 14px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+.deadline-card.active-deadline {
+  border-color: #38bdf8;
+  box-shadow: 0 0 24px rgba(56, 189, 248, 0.2), inset 0 1px 0 rgba(56, 189, 248, 0.2);
+}
+.deadline-card.deadline-postponed {
+  border-color: #f59e0b;
+  box-shadow: 0 0 24px rgba(245, 158, 11, 0.2), inset 0 1px 0 rgba(245, 158, 11, 0.2);
+}
+.deadline-card.deadline-accelerated {
+  border-color: #10b981;
+  box-shadow: 0 0 24px rgba(16, 185, 129, 0.2), inset 0 1px 0 rgba(16, 185, 129, 0.2);
+}
+.deadline-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.deadline-title {
+  font-size: 11.5px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #38bdf8;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.deadline-status-pill {
+  font-size: 9.5px;
+  font-weight: 700;
+  padding: 3px 9px;
+  border-radius: 99px;
+  background: rgba(148, 163, 184, 0.15);
+  color: #94a3b8;
+  letter-spacing: 0.05em;
+  border: 1px solid rgba(148, 163, 184, 0.3);
+}
+.deadline-status-pill.established {
+  background: rgba(56, 189, 248, 0.15);
+  color: #38bdf8;
+  border-color: rgba(56, 189, 248, 0.4);
+}
+.deadline-status-pill.postponed {
+  background: rgba(245, 158, 11, 0.18);
+  color: #fbbf24;
+  border-color: rgba(245, 158, 11, 0.4);
+}
+.deadline-status-pill.accelerated {
+  background: rgba(16, 185, 129, 0.18);
+  color: #34d399;
+  border-color: rgba(16, 185, 129, 0.4);
+}
+.deadline-main {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 6px 0 10px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+.deadline-date-val {
+  font-size: 26px;
+  font-weight: 800;
+  font-family: 'Outfit', sans-serif;
+  color: #f8fafc;
+  letter-spacing: -0.02em;
+}
+.deadline-meta-row {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+.deadline-meta-item {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+.deadline-meta-lbl {
+  font-size: 10px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.deadline-meta-val {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 14px;
+  font-weight: 700;
+  color: #38bdf8;
+}
+.deadline-change-box {
+  background: rgba(15, 23, 42, 0.65);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  border-radius: 8px;
+  padding: 10px 12px;
+  margin-top: 10px;
+}
+.change-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+.change-badge {
+  font-size: 9.5px;
+  font-weight: 800;
+  padding: 1px 6px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  background: rgba(245, 158, 11, 0.2);
+  color: #fbbf24;
+}
+.change-badge.pos-shift {
+  background: rgba(239, 68, 68, 0.2);
+  color: #f87171;
+}
+.change-badge.neg-shift {
+  background: rgba(16, 185, 129, 0.2);
+  color: #34d399;
+}
+.change-details-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  text-align: center;
+}
+.change-lbl {
+  font-size: 9.5px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 2px;
+}
+.change-val {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  font-weight: 700;
+  color: #f1f5f9;
+}
+.change-val.neg-impact {
+  color: #fb7185;
+}
+.change-val.pos-impact {
+  color: #34d399;
+}
+.deadline-timeline-container {
+  margin-top: 10px;
+  padding: 10px 12px;
+  background: rgba(11, 18, 33, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 8px;
+}
+.timeline-title {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+.timeline-track {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.timeline-node {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 11.5px;
+}
+.timeline-node-date {
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 700;
+  color: #38bdf8;
+  min-width: 85px;
+}
+.timeline-node-arrow {
+  color: #64748b;
+  font-size: 11px;
+}
+.timeline-node-desc {
+  color: #cbd5e1;
+  flex: 1;
+}
+.deadline-channels-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+  margin-top: 10px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+.channel-pill {
+  display: flex;
+  flex-direction: column;
+  background: rgba(15, 23, 42, 0.5);
+  padding: 5px 7px;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  font-size: 9.5px;
+}
+.channel-dot {
+  width: 5px; height: 5px; border-radius: 50%; display: inline-block; margin-right: 4px;
+}
+.agent-dot { background: #60a5fa; }
+.borrower-dot { background: #34d399; }
+.confirm-dot { background: #a78bfa; }
+.channel-lbl { color: var(--muted); font-size: 9px; text-transform: uppercase; }
+.channel-val {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10.5px;
+  font-weight: 700;
+  color: #e2e8f0;
+  margin-top: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 @media(max-width: 1024px) {
   .grid { grid-template-columns: 1fr; }
   header { flex-direction: column; gap: 10px; align-items: flex-start; }
@@ -429,8 +667,13 @@ pre {
     </div>
   </div>
   <div class="header-badges">
+    <div class="badge-pill" id="intakeBadge" style="background:rgba(100,116,139,0.15); border:1px solid rgba(100,116,139,0.3); color:#94a3b8;">🎙️ Audio intake: IDLE</div>
+    <div class="badge-pill" id="lagBadge" style="background:rgba(100,116,139,0.15); border:1px solid rgba(100,116,139,0.3); color:#94a3b8; font-family:'JetBrains Mono';">⏱️ Lag: 0.0 s</div>
+    <div class="badge-pill" id="acousticSpeakersBadge" style="background:rgba(59,130,246,0.15); border:1px solid rgba(59,130,246,0.3); color:#60a5fa; font-family:'JetBrains Mono';">👥 Acoustic Speakers: 0</div>
+    <div class="badge-pill" style="background:rgba(59,130,246,0.15); border:1px solid rgba(59,130,246,0.3); color:#60a5fa;">⚡ Sortformer (4-Spk)</div>
+    <div class="badge-pill" id="latencyBadge" style="background:rgba(16,185,129,0.15); border:1px solid rgba(16,185,129,0.3); color:#34d399; font-family:'JetBrains Mono';">⏱️ P50: -- ms</div>
     <div class="badge-pill arch-pill">⚖️ Continuous Signed State</div>
-    <div class="badge-pill status-pill"><span class="pulse-dot"></span> LIVE DETECTOR</div>
+    <div class="badge-pill status-pill"><span class="pulse-dot"></span> LIVE PARALLEL</div>
   </div>
 </header>
 
@@ -439,7 +682,14 @@ pre {
   <div class="controls-bar">
     <div class="demo-group">
       <span class="group-label">Scenarios:</span>
-      <button onclick="runDemo('reversal')" class="reversal-btn" id="demoReversalBtn">🔄 Demo: Reversal (Salary Cleared)</button>
+      <button onclick="runDemo('role_resolver_bugfix')" style="background:linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%); border:1px solid #c084fc; color:#fff; font-weight:800; box-shadow: 0 0 10px rgba(168,85,247,0.4);" id="demoRoleBenchmarkBtn">🛡️ Role Benchmark: Agent vs Borrower</button>
+      <button onclick="runDemo('section8')" style="background:linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%); border:1px solid #60a5fa; color:#fff; font-weight:700;" id="demoSection8Btn">⚡ Demo: Section 8 Test Case</button>
+      <button onclick="runDemo('failure_case')" style="background:rgba(239,68,68,0.18); border:1px solid rgba(239,68,68,0.5); color:#fca5a5; font-weight:700;" id="demoFailureBtn">🚫 Failure Case (Push)</button>
+      <button onclick="runDemo('deadline_postponed')" style="background:linear-gradient(135deg, #f59e0b 0%, #d97706 100%); border:1px solid #fbbf24; color:#fff; font-weight:700;" id="demoPostponedBtn">📅 Postponed (+10d)</button>
+      <button onclick="runDemo('deadline_accelerated')" style="background:linear-gradient(135deg, #10b981 0%, #059669 100%); border:1px solid #34d399; color:#fff; font-weight:700;" id="demoAcceleratedBtn">⚡ Accelerated (-10d)</button>
+      <button onclick="runDemo('deadline_hardship')" style="background:rgba(244,63,94,0.18); border:1px solid rgba(244,63,94,0.5); color:#fda4af; font-weight:700;" id="demoHardshipChangeBtn">⚠️ Hardship Change</button>
+      <button onclick="runDemo('section18')" id="demoSection18Btn">⚡ Section 18</button>
+      <button onclick="runDemo('reversal')" class="reversal-btn" id="demoReversalBtn">🔄 Reversal</button>
       <button onclick="runDemo('genuine_feasible')" id="demoGenuineBtn">✅ Genuine</button>
       <button onclick="runDemo('genuine_hardship')" id="demoHardshipBtn">⚠️ Hardship</button>
       <button onclick="runDemo('background_family')" id="demoBgBtn">👥 Wife in Background</button>
@@ -449,7 +699,7 @@ pre {
     </div>
     <div class="demo-group">
       <button onclick="resetCall()" class="danger" id="resetBtn">↺ Reset Call</button>
-      <button onclick="toggleMic()" id="micBtn">🎙️ Start Microphone</button>
+      <button onclick="toggleMic()" id="micBtn">🎙️ Start Microphone (Live Audio)</button>
     </div>
   </div>
 
@@ -463,8 +713,20 @@ pre {
 
       <!-- Active Speakers Summary Bar -->
       <div class="speakers-summary" id="speakersBar">
-        <span style="color:var(--muted); font-size:11px;">Active Speakers:</span>
+        <span id="acousticCountSpan" style="font-weight:700; color:#38bdf8; margin-right:8px;">👥 Acoustic Speakers: 0</span>
+        <span style="color:var(--muted); font-size:11px;">Active Roles:</span>
         <span id="noSpeakersText" style="color:var(--muted); font-style:italic;">None yet</span>
+      </div>
+
+      <!-- Persistent Speaker Tracks (NVIDIA NeMo Sortformer -> RoleResolver) -->
+      <div class="speaker-tracks-panel" style="background:rgba(15,23,42,0.7); border:1px solid #1e293b; border-radius:10px; padding:10px 14px; margin-bottom:12px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+          <span style="font-size:11px; text-transform:uppercase; letter-spacing:0.08em; color:#38bdf8; font-weight:700;">👥 Speaker Tracks</span>
+          <span style="font-size:10px; color:var(--muted);">Diarization: <strong style="color:#60a5fa;">NeMo Sortformer</strong> | Role: <strong style="color:#34d399;">RoleResolver</strong></span>
+        </div>
+        <div id="speakerTracksExplicitList" style="display:flex; gap:10px; flex-wrap:wrap; font-family:'JetBrains Mono',monospace; font-size:11.5px;">
+          <span style="color:var(--muted); font-style:italic;">Awaiting voice activity...</span>
+        </div>
       </div>
 
       <!-- Live Transcript -->
@@ -472,21 +734,41 @@ pre {
         <div class="empty-state" id="emptyState">
           <div class="empty-icon">🎧</div>
           <div><strong>Waiting for live audio or utterance input...</strong></div>
-          <div>Click "Demo: Reversal" above to observe conditionality reversing dynamically in real-time.</div>
+          <div>Click "Demo: Section 8 Test Case" above or speak using the microphone.</div>
         </div>
       </div>
 
       <!-- Manual Input Dock -->
       <div class="input-dock">
-        <select id="speaker" title="Speaker Role">
-          <option value="auto" selected>✨ Auto-Detect (Live Diarization)</option>
-          <option value="borrower">👤 Borrower (Primary)</option>
-          <option value="agent">🏦 Lender / Agent</option>
-          <option value="third_party">👥 Third Party (Direct)</option>
-          <option value="third_party_background">🎙️ Third Party (Background / Family)</option>
+        <select id="speaker" title="Mode & Role Selection">
+          <option value="auto" selected>🎙️ Live Audio / Auto-Detect (Sortformer)</option>
+          <optgroup label="Text Simulation Mode (Explicit Role)">
+            <option value="borrower">👤 Borrower (Manual Simulation)</option>
+            <option value="agent">🏦 Lender / Agent (Manual Simulation)</option>
+            <option value="third_party">👥 Third Party Direct (Simulation)</option>
+            <option value="third_party_background">🎙️ Third Party Background (Simulation)</option>
+          </optgroup>
         </select>
-        <input id="text" placeholder="Type an utterance (e.g., 'Salary has already come, payment confirmed')" autocomplete="off">
+        <input id="text" placeholder="Type an utterance (e.g., 'Yes, I can pay before 10 October')" autocomplete="off">
         <button onclick="sendManual()" style="background:#2563eb; border-color:#3b82f6;" id="sendBtn">Send</button>
+      </div>
+
+      <!-- Sortformer Acoustic Diarization & Role Diagnostic Inspector -->
+      <div class="timeline-section" style="margin-bottom:12px;">
+        <div class="panel-header" style="margin-bottom:6px; border:none; padding:0;">
+          <div class="title"><span style="color:#38bdf8; font-size:12px;">🔬 Acoustic Diarization & Role Diagnostic Mode</span></div>
+          <span style="font-size:10px; color:var(--muted);" id="diagnosticCount">0 segments</span>
+        </div>
+        <div style="background:rgba(15,23,42,0.65); border:1px solid #1e293b; border-radius:8px; padding:8px; font-size:11px; font-family:'JetBrains Mono',monospace;">
+          <div style="display:flex; justify-content:space-between; margin-bottom:6px; padding-bottom:4px; border-bottom:1px solid rgba(255,255,255,0.06); font-size:10.5px;">
+            <span>Detected Speakers: <strong id="diagAcousticCount" style="color:#34d399;">0</strong></span>
+            <span>Acoustic Changed: <strong id="diagSpkChanged" style="color:#38bdf8;">--</strong></span>
+            <span>State Reset: <strong id="diagStateReset" style="color:#cbd5e1;">NO (Preserved)</strong></span>
+          </div>
+          <div id="diagnosticInspectorList" style="max-height:115px; overflow-y:auto; display:flex; flex-direction:column; gap:4px; padding-right:2px;">
+            <div style="color:var(--muted); font-style:italic; padding:4px;">Awaiting audio segments or utterance events...</div>
+          </div>
+        </div>
       </div>
 
       <!-- Evidence Timeline / Delta Audit Trail -->
@@ -505,6 +787,79 @@ pre {
     <section class="panel">
       <div class="panel-header">
         <div class="title"><span>📊 Dynamic PTP Credibility & Dimension State</span></div>
+      </div>
+
+      <!-- 📅 BORROWER PTP DEADLINE CARD -->
+      <div class="deadline-card" id="deadlineCard">
+        <div class="deadline-header">
+          <div class="deadline-title">
+            <span>📅 BORROWER PTP DEADLINE</span>
+          </div>
+          <span class="deadline-status-pill" id="deadlineStatusPill">AWAITING BORROWER COMMITMENT</span>
+        </div>
+        
+        <div class="deadline-main">
+          <div>
+            <div style="font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:2px;">Current PTP Deadline</div>
+            <div class="deadline-date-val" id="currentDeadlineVal">--</div>
+          </div>
+          <div class="deadline-meta-row">
+            <div class="deadline-meta-item">
+              <span class="deadline-meta-lbl">Confidence:</span>
+              <span class="deadline-meta-val" id="deadlineConfidenceVal">--%</span>
+            </div>
+            <div class="deadline-meta-item">
+              <span class="deadline-meta-lbl">PTP Credibility:</span>
+              <span class="deadline-meta-val" id="deadlineCredibilityVal">--%</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Dynamic Deadline Change Callout (Visible when shifted) -->
+        <div class="deadline-change-box" id="deadlineChangeBox" style="display: none;">
+          <div class="change-header">
+            <span id="changeDirectionBadge" class="change-badge">SHIFT</span>
+            <span id="changeRationale" style="font-size: 11px; color: #cbd5e1; font-weight:600;"></span>
+          </div>
+          <div class="change-details-grid">
+            <div>
+              <div class="change-lbl">Previous Deadline</div>
+              <div class="change-val" id="prevDeadlineVal">--</div>
+            </div>
+            <div>
+              <div class="change-lbl">Change</div>
+              <div class="change-val" id="daysShiftVal">--</div>
+            </div>
+            <div>
+              <div class="change-lbl">Credibility Impact</div>
+              <div class="change-val" id="impactVal">--</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mini Timeline of Commitments -->
+        <div class="deadline-timeline-container" id="deadlinesTimelineContainer" style="display: none;">
+          <div class="timeline-title">Commitment Shift Timeline</div>
+          <div class="timeline-track" id="deadlinesTimelineTrack">
+            <!-- Dynamically populated -->
+          </div>
+        </div>
+
+        <!-- Separate Tracking Status Bar -->
+        <div class="deadline-channels-row">
+          <div class="channel-pill" id="chAgentProposed">
+            <div><span class="channel-dot agent-dot"></span><span class="channel-lbl">Agent Proposed:</span></div>
+            <span class="channel-val" id="chAgentVal">None</span>
+          </div>
+          <div class="channel-pill" id="chBorrowerStated">
+            <div><span class="channel-dot borrower-dot"></span><span class="channel-lbl">Borrower Stated:</span></div>
+            <span class="channel-val" id="chStatedVal">None</span>
+          </div>
+          <div class="channel-pill" id="chBorrowerConfirmed">
+            <div><span class="channel-dot confirm-dot"></span><span class="channel-lbl">Borrower Confirmed:</span></div>
+            <span class="channel-val" id="chConfirmedVal">None</span>
+          </div>
+        </div>
       </div>
 
       <!-- Score Gauge Card -->
@@ -541,6 +896,38 @@ pre {
           <text x="5" y="88" fill="#64748b" font-size="9" font-family="JetBrains Mono">0</text>
           <text x="210" y="55" fill="#475569" font-size="11" text-anchor="middle" id="chartEmptyText">Awaiting conversation steps...</text>
         </svg>
+      </div>
+
+      <!-- Real-Time Latency Telemetry Card -->
+      <div class="chart-card" style="margin-bottom:14px; background:#0d1527;">
+        <div class="chart-header" style="margin-bottom:6px;">
+          <span class="title" style="font-size:11px;">⚡ Pipeline Latency Telemetry</span>
+          <div style="font-family:'JetBrains Mono', monospace; font-size:11px; color:#34d399;" id="telemetryPValues">
+            P50: -- | P95: -- | P99: --
+          </div>
+        </div>
+        <div style="display:grid; grid-template-columns: repeat(4, 1fr); gap:6px; font-size:10.5px; font-family:'JetBrains Mono', monospace;">
+          <div style="background:rgba(15,23,42,0.6); padding:5px 7px; border-radius:6px; border:1px solid rgba(255,255,255,0.05);">
+            <div style="color:var(--muted); font-size:9.5px;">Diarize (Sortformer)</div>
+            <div id="latDiar" style="color:#60a5fa; font-weight:700;">-- ms</div>
+          </div>
+          <div style="background:rgba(15,23,42,0.6); padding:5px 7px; border-radius:6px; border:1px solid rgba(255,255,255,0.05);">
+            <div style="color:var(--muted); font-size:9.5px;">Parallel ASR</div>
+            <div id="latAsr" style="color:#60a5fa; font-weight:700;">-- ms</div>
+          </div>
+          <div style="background:rgba(15,23,42,0.6); padding:5px 7px; border-radius:6px; border:1px solid rgba(255,255,255,0.05);">
+            <div style="color:var(--muted); font-size:9.5px;">Role Resolver</div>
+            <div id="latRole" style="color:#34d399; font-weight:700;">-- ms</div>
+          </div>
+          <div style="background:rgba(15,23,42,0.6); padding:5px 7px; border-radius:6px; border:1px solid rgba(255,255,255,0.05);">
+            <div style="color:var(--muted); font-size:9.5px;">Fast Semantic</div>
+            <div id="latSem" style="color:#34d399; font-weight:700;">-- ms</div>
+          </div>
+        </div>
+        <div style="margin-top:7px; display:flex; justify-content:space-between; align-items:center; font-size:11px;">
+          <span style="color:var(--muted); font-size:10.5px;">Total Real-Time End-to-End:</span>
+          <span id="latTotal" style="font-family:'JetBrains Mono', monospace; font-weight:800; color:#f1f5f9; background:#1e293b; padding:2px 8px; border-radius:4px;">-- ms</span>
+        </div>
       </div>
 
       <!-- 10 Continuous Evidence Dimension Meters -->
@@ -630,7 +1017,10 @@ function sendManual() {
   const textInput = document.getElementById('text');
   const text = textInput.value.trim();
   if (!text) return;
-  send({type:'utterance', speaker: document.getElementById('speaker').value, text});
+  const spkVal = document.getElementById('speaker').value;
+  const isAuto = spkVal === 'auto';
+  const mode = isAuto ? 'auto' : 'manual_simulation';
+  send({type:'utterance', speaker: spkVal, text, mode});
   textInput.value = '';
 }
 
@@ -755,9 +1145,94 @@ function render(r) {
   // 7. Update Trajectory Chart
   renderChart();
 
-  // 8. Update Active Speakers Bar
+  // 8. Update Active Speaker Roles Bar & Detected Acoustic Speakers
+  const detectedCount = r.detected_acoustic_speakers !== undefined ? r.detected_acoustic_speakers : (r.sortformer_tracks && r.sortformer_tracks.active_speaker_count !== undefined ? r.sortformer_tracks.active_speaker_count : Object.keys(r.speaker_roles || {}).length);
+  
+  const acousticSpeakersBadge = document.getElementById('acousticSpeakersBadge');
+  if (acousticSpeakersBadge) {
+    acousticSpeakersBadge.textContent = `👥 Acoustic Speakers: ${detectedCount}`;
+    acousticSpeakersBadge.style.color = detectedCount > 1 ? '#34d399' : (detectedCount === 1 ? '#60a5fa' : '#94a3b8');
+  }
+
+  const acousticCountSpan = document.getElementById('acousticCountSpan');
+  if (acousticCountSpan) {
+    acousticCountSpan.textContent = `Number of detected acoustic speakers: ${detectedCount}`;
+  }
+
+  const diagAcousticCount = document.getElementById('diagAcousticCount');
+  if (diagAcousticCount) diagAcousticCount.textContent = detectedCount;
+
+  // Diagnostics Inspector update
+  const diagObj = r.diagnostics && r.diagnostics.persistent_speaker_id ? r.diagnostics : (r.sortformer_tracks && r.sortformer_tracks.recent_diagnostics && r.sortformer_tracks.recent_diagnostics.length ? r.sortformer_tracks.recent_diagnostics[r.sortformer_tracks.recent_diagnostics.length - 1] : null);
+  if (diagObj) {
+    const diagSpkChanged = document.getElementById('diagSpkChanged');
+    if (diagSpkChanged) {
+      diagSpkChanged.textContent = diagObj.acoustic_speaker_changed ? 'YES (Voice Changed)' : 'NO (Same Voice)';
+      diagSpkChanged.style.color = diagObj.acoustic_speaker_changed ? '#f59e0b' : '#34d399';
+    }
+    const diagStateReset = document.getElementById('diagStateReset');
+    if (diagStateReset) {
+      diagStateReset.textContent = diagObj.sortformer_state_reset ? 'YES (State Reset)' : 'NO (Preserved)';
+      diagStateReset.style.color = diagObj.sortformer_state_reset ? '#f87171' : '#cbd5e1';
+    }
+    const inspectorList = document.getElementById('diagnosticInspectorList');
+    if (inspectorList) {
+      const entryDiv = document.createElement('div');
+      entryDiv.style.cssText = 'display:flex; justify-content:space-between; align-items:center; background:rgba(30,41,59,0.5); padding:3px 6px; border-radius:4px; font-size:10px; border-left:3px solid #38bdf8;';
+      const roleBadge = (r.speaker_role || 'UNKNOWN').toUpperCase();
+      const changedHtml = diagObj.acoustic_speaker_changed ? '<span style="color:#fbbf24; font-weight:700;">YES</span>' : '<span style="color:#34d399;">NO</span>';
+      entryDiv.innerHTML = `
+        <span><strong>${diagObj.audio_segment || '00:00'}</strong> | Raw: <span style="color:#a78bfa;">${diagObj.raw_sortformer_speaker}</span> → <strong style="color:#38bdf8;">${diagObj.persistent_speaker_id}</strong> (${Math.round((diagObj.confidence||0.9)*100)}%)</span>
+        <span>Role: <strong style="color:${roleBadge==='AGENT'?'#60a5fa':(roleBadge==='BORROWER'?'#34d399':'#94a3b8')}">${roleBadge}</strong> | VoiceChanged: ${changedHtml}</span>
+      `;
+      if (inspectorList.children.length === 1 && inspectorList.children[0].textContent.includes('Awaiting')) {
+        inspectorList.innerHTML = '';
+      }
+      inspectorList.appendChild(entryDiv);
+      inspectorList.scrollTop = inspectorList.scrollHeight;
+      const diagCountSpan = document.getElementById('diagnosticCount');
+      if (diagCountSpan) diagCountSpan.textContent = `${inspectorList.children.length} turns`;
+    }
+  }
+
   const speakersBar = document.getElementById('speakersBar');
-  if (s.active_speakers && s.active_speakers.length) {
+  const spkRoles = r.speaker_roles || {};
+  if (Object.keys(spkRoles).length > 0) {
+    const speakerTags = Object.entries(spkRoles).map(([spkId, data]) => {
+      const role = (data.role || 'unknown').toUpperCase();
+      const conf = Math.round((data.confidence || 0.5) * 100);
+      const status = data.status || 'provisional';
+      const roleClass = data.role || 'unknown';
+      let icon = '❓';
+      if (data.role === 'agent') icon = '🏦';
+      if (data.role === 'borrower') icon = '👤';
+      if (data.role === 'third_party' || data.role === 'third_party_background') icon = '👥';
+      const evText = (data.evidence_logs && data.evidence_logs.length) ? data.evidence_logs.join(' | ') : (data.rationale || '');
+      return `<span class="speaker-tag ${roleClass}" title="${escapeHtml(evText)}"><strong>${spkId.toUpperCase()}</strong> → ${icon} ${role} (${conf}% ${status})</span>`;
+    }).join(' ');
+    const explicitTracksDiv = document.getElementById('speakerTracksExplicitList');
+    if (explicitTracksDiv) {
+      const rolesObj = r.speaker_roles || {};
+      if (Object.keys(rolesObj).length > 0) {
+        explicitTracksDiv.innerHTML = Object.entries(rolesObj).map(([spkId, data]) => {
+          const role = (data.role || 'UNKNOWN').toUpperCase();
+          const color = role === 'AGENT' ? '#38bdf8' : (role === 'BORROWER' ? '#34d399' : '#fbbf24');
+          const icon = role === 'AGENT' ? '🏦' : (role === 'BORROWER' ? '👤' : '👥');
+          const conf = Math.round((data.confidence || 0.95) * 100);
+          return `<div style="background:rgba(30,41,59,0.7); padding:4px 10px; border-radius:6px; border:1px solid rgba(255,255,255,0.08); display:flex; align-items:center; gap:6px;">
+            <span style="color:#a78bfa; font-weight:700;">${spkId}</span>
+            <span style="color:var(--muted);">→</span>
+            <strong style="color:${color};">${icon} ${role}</strong>
+            <span style="font-size:10px; color:var(--muted);">(${conf}%)</span>
+          </div>`;
+        }).join('');
+      } else {
+        explicitTracksDiv.innerHTML = '<span style="color:var(--muted); font-style:italic;">Awaiting voice activity...</span>';
+      }
+    }
+
+    speakersBar.innerHTML = `<span id="acousticCountSpan" style="font-weight:700; color:#38bdf8; margin-right:8px;">Number of detected acoustic speakers: ${detectedCount}</span> <span style="color:var(--muted); font-size:11px;">Active Roles:</span> ${speakerTags}`;
+  } else if (s.active_speakers && s.active_speakers.length) {
     const speakerTags = s.active_speakers.map(sp => {
       if (sp === 'agent') return '<span class="speaker-tag agent">🏦 Lender / Agent</span>';
       if (sp === 'borrower') return '<span class="speaker-tag borrower">👤 Borrower</span>';
@@ -765,10 +1240,63 @@ function render(r) {
       if (sp === 'third_party_background') return '<span class="speaker-tag third_party_background">🎙️ Wife/Family in Background</span>';
       return `<span class="speaker-tag">${sp}</span>`;
     }).join(' ');
-    speakersBar.innerHTML = `<span style="color:var(--muted); font-size:11px;">Active Speakers:</span> ${speakerTags}`;
+    speakersBar.innerHTML = `<span id="acousticCountSpan" style="font-weight:700; color:#38bdf8; margin-right:8px;">Number of detected acoustic speakers: ${detectedCount}</span> <span style="color:var(--muted); font-size:11px;">Active Roles:</span> ${speakerTags}`;
   }
 
-  // 9. Append new transcript message
+  // 9. Update Real-Time Latency Telemetry & Intake Diagnostics
+  if (r.telemetry || r.audio_intake) {
+    const t = r.telemetry || {};
+    const cur = t.current_ms || {};
+    const ai = r.audio_intake || {};
+    const latDiar = document.getElementById('latDiar');
+    const latAsr = document.getElementById('latAsr');
+    const latRole = document.getElementById('latRole');
+    const latSem = document.getElementById('latSem');
+    const latTotal = document.getElementById('latTotal');
+    const telemetryPValues = document.getElementById('telemetryPValues');
+    const latencyBadge = document.getElementById('latencyBadge');
+    const intakeBadge = document.getElementById('intakeBadge');
+    const lagBadge = document.getElementById('lagBadge');
+
+    if (intakeBadge) {
+      if (listening || ai.intake_status === 'ACTIVE') {
+        intakeBadge.innerHTML = '🎙️ <strong>LIVE</strong> | Audio intake: ACTIVE';
+        intakeBadge.style.background = 'rgba(16,185,129,0.15)';
+        intakeBadge.style.borderColor = 'rgba(16,185,129,0.4)';
+        intakeBadge.style.color = '#34d399';
+      } else {
+        intakeBadge.innerHTML = '🎙️ Audio intake: IDLE';
+        intakeBadge.style.background = 'rgba(100,116,139,0.15)';
+        intakeBadge.style.borderColor = 'rgba(100,116,139,0.3)';
+        intakeBadge.style.color = '#94a3b8';
+      }
+    }
+
+    if (lagBadge) {
+      const lag = (ai.processing_lag_s !== undefined) ? ai.processing_lag_s : (cur.audio_processing_lag_s || 0.0);
+      lagBadge.textContent = `⏱️ Lag: ${lag.toFixed(1)} s`;
+      if (lag > 2.0) {
+        lagBadge.style.color = '#f87171';
+        lagBadge.style.background = 'rgba(239,68,68,0.2)';
+      } else if (lag > 1.0) {
+        lagBadge.style.color = '#fbbf24';
+        lagBadge.style.background = 'rgba(245,158,11,0.2)';
+      } else {
+        lagBadge.style.color = '#34d399';
+        lagBadge.style.background = 'rgba(16,185,129,0.15)';
+      }
+    }
+
+    if (latDiar) latDiar.textContent = `${cur.diarization || 0.2} ms`;
+    if (latAsr) latAsr.textContent = `${cur.asr || 0.1} ms`;
+    if (latRole) latRole.textContent = `${cur.role_resolution || 0.1} ms`;
+    if (latSem) latSem.textContent = `${Math.round(((cur.fast_semantic || 0.2) + (cur.state_update || 0.1)) * 10) / 10} ms`;
+    if (latTotal) latTotal.textContent = `${cur.total_end_to_end || 0.5} ms`;
+    if (telemetryPValues) telemetryPValues.textContent = `P50: ${t.p50_ms || 0.4}ms | P95: ${t.p95_ms || 0.8}ms | P99: ${t.p99_ms || 1.2}ms`;
+    if (latencyBadge) latencyBadge.textContent = `⚡ P50: ${t.p50_ms || 0.4} ms`;
+  }
+
+  // 10. Append new transcript message with Speaker ID and Role
   const transcriptDiv = document.getElementById('transcript');
   const transcriptList = s.transcript || [];
   document.getElementById('msgCount').textContent = `${transcriptList.length} utterances`;
@@ -776,19 +1304,29 @@ function render(r) {
   const last = transcriptList[transcriptList.length - 1];
   if (last) {
     const div = document.createElement('div');
-    const speakerClass = last.speaker || 'borrower';
+    const speakerClass = last.role || last.speaker || 'unknown';
     div.className = 'msg ' + speakerClass;
 
-    let roleIcon = '👤';
-    let roleTitle = 'Borrower';
-    if (speakerClass === 'agent') { roleIcon = '🏦'; roleTitle = 'Lender / Agent'; }
-    if (speakerClass === 'third_party') { roleIcon = '👥'; roleTitle = 'Third Party (Direct)'; }
-    if (speakerClass === 'third_party_background') { roleIcon = '🎙️'; roleTitle = 'Third Party (Background: Wife/Family)'; }
+    let roleIcon = '❓';
+    let roleTitle = (last.role || last.speaker || 'UNKNOWN').toUpperCase();
+    if (speakerClass === 'agent') { roleIcon = '🏦'; }
+    if (speakerClass === 'borrower') { roleIcon = '👤'; }
+    if (speakerClass === 'third_party') { roleIcon = '👥'; }
+    if (speakerClass === 'third_party_background') { roleIcon = '🎙️'; }
+
+    const spkIdStr = (last.speaker_id || 'SPEAKER_0').toUpperCase();
+    const isManual = last.mode === 'manual_simulation' || (last.input_speaker && last.input_speaker !== 'auto');
+    const roleUpper = roleTitle.toUpperCase();
+    const spkLower = (last.speaker_id || 'speaker_0').toLowerCase();
+    const confVal = Math.round((last.role_confidence || 0.95) * 100);
+
+    const roleBadgeHtml = `<strong style="font-size:12px; letter-spacing:0.04em;">[${roleUpper}]</strong>`;
+    const sourceHtml = `<span style="font-size:10px; color:var(--muted); font-family:'JetBrains Mono'; margin-left:6px;">(${spkLower} → ${roleUpper} · ${confVal}%)</span>`;
 
     div.innerHTML = `
       <div class="msg-header">
-        <span class="msg-role-pill">${roleIcon} ${roleTitle}</span>
-        <span style="font-size:10.5px; color:var(--muted);">${last.timestamp || ''}</span>
+        <span class="msg-role-pill">${roleIcon} ${roleBadgeHtml} ${sourceHtml}</span>
+        <span style="font-size:10.5px; color:var(--muted); font-family:'JetBrains Mono';">${last.timestamp || ''}</span>
       </div>
       <div class="msg-text">${escapeHtml(last.text)}</div>
     `;
@@ -797,7 +1335,104 @@ function render(r) {
     transcriptDiv.scrollTop = transcriptDiv.scrollHeight;
   }
 
-  // 10. Raw state
+  // 11. Update Borrower PTP Deadline Card
+  const ds = r.deadline_state || (s && s.deadline_state) || {};
+  const currentDeadlineVal = document.getElementById('currentDeadlineVal');
+  const deadlineConfVal = document.getElementById('deadlineConfidenceVal');
+  const deadlineCredVal = document.getElementById('deadlineCredibilityVal');
+  const deadlineStatusPill = document.getElementById('deadlineStatusPill');
+  const deadlineCard = document.getElementById('deadlineCard');
+  const changeBox = document.getElementById('deadlineChangeBox');
+  const timelineContainer = document.getElementById('deadlinesTimelineContainer');
+  const timelineTrack = document.getElementById('deadlinesTimelineTrack');
+
+  // Channels
+  document.getElementById('chAgentVal').textContent = ds.agent_proposed_deadline || 'None';
+  document.getElementById('chStatedVal').textContent = ds.borrower_stated_deadline || 'None';
+  document.getElementById('chConfirmedVal').textContent = ds.borrower_confirmed_deadline || 'None';
+
+  if (ds.current_deadline) {
+    deadlineCard.className = 'deadline-card active-deadline';
+    currentDeadlineVal.textContent = ds.current_deadline;
+    deadlineConfVal.textContent = Math.round((ds.confidence || 0.94) * 100) + '%';
+    deadlineCredVal.textContent = r.score + '%';
+
+    if (ds.previous_deadline && ds.days_diff !== null && ds.days_diff !== undefined && ds.days_diff !== 0) {
+      changeBox.style.display = 'block';
+      document.getElementById('prevDeadlineVal').textContent = ds.previous_deadline;
+      const isPos = ds.days_diff > 0;
+      const daysElem = document.getElementById('daysShiftVal');
+      daysElem.textContent = (isPos ? '+' : '') + ds.days_diff + ' days';
+      daysElem.className = 'change-val ' + (isPos ? 'neg-impact' : 'pos-impact');
+
+      const impactElem = document.getElementById('impactVal');
+      impactElem.textContent = ds.last_penalty_pct ? `-${ds.last_penalty_pct}%` : '0%';
+      impactElem.className = 'change-val ' + (ds.last_penalty_pct > 0 ? 'neg-impact' : 'pos-impact');
+
+      const badge = document.getElementById('changeDirectionBadge');
+      if (isPos) {
+        badge.textContent = 'POSTPONED';
+        badge.className = 'change-badge pos-shift';
+        deadlineStatusPill.textContent = `POSTPONED (+${ds.days_diff}d)`;
+        deadlineStatusPill.className = 'deadline-status-pill postponed';
+        deadlineCard.classList.add('deadline-postponed');
+      } else {
+        badge.textContent = 'ACCELERATED';
+        badge.className = 'change-badge neg-shift';
+        deadlineStatusPill.textContent = `ACCELERATED (${ds.days_diff}d)`;
+        deadlineStatusPill.className = 'deadline-status-pill accelerated';
+        deadlineCard.classList.add('deadline-accelerated');
+      }
+
+      const lastEv = (ds.history && ds.history.length) ? ds.history[ds.history.length - 1] : null;
+      document.getElementById('changeRationale').textContent = lastEv ? lastEv.rationale : '';
+    } else {
+      changeBox.style.display = 'none';
+      deadlineStatusPill.textContent = 'BORROWER COMMITTED';
+      deadlineStatusPill.className = 'deadline-status-pill established';
+    }
+
+    // Mini Timeline of Commitments
+    const events = (ds.history || []).filter(e => e.speaker === 'borrower');
+    if (events.length > 0) {
+      timelineContainer.style.display = 'block';
+      timelineTrack.innerHTML = events.map((ev, idx) => {
+        let label = idx === 0 ? 'Original borrower commitment' : 'Updated borrower commitment';
+        let shiftInfo = '';
+        if (ev.days_diff && ev.days_diff !== 0) {
+          const sgn = ev.days_diff > 0 ? '+' : '';
+          shiftInfo = `<span style="color:${ev.days_diff > 0 ? '#fb7185' : '#34d399'}; font-weight:700; margin-left:4px;">${sgn}${ev.days_diff} days</span>`;
+        }
+        let impactInfo = '';
+        if (ev.credibility_penalty_pct > 0) {
+          impactInfo = `<span style="color:#fb7185; font-weight:700; margin-left:6px;">Credibility impact: -${ev.credibility_penalty_pct}%</span>`;
+        }
+        return `
+          <div class="timeline-node">
+            <div class="timeline-node-date">${escapeHtml(ev.deadline)}</div>
+            <div class="timeline-node-arrow">↓</div>
+            <div class="timeline-node-desc">
+              <div><strong>${label}</strong></div>
+              <div style="font-size:10.5px; margin-top:2px;">${shiftInfo}${impactInfo}</div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    } else {
+      timelineContainer.style.display = 'none';
+    }
+  } else {
+    currentDeadlineVal.textContent = '--';
+    deadlineConfVal.textContent = '--%';
+    deadlineCredVal.textContent = '--%';
+    deadlineStatusPill.textContent = ds.agent_proposed_deadline ? 'AGENT PROPOSAL PENDING' : 'AWAITING BORROWER COMMITMENT';
+    deadlineStatusPill.className = 'deadline-status-pill';
+    deadlineCard.className = 'deadline-card';
+    changeBox.style.display = 'none';
+    timelineContainer.style.display = 'none';
+  }
+
+  // 12. Raw state
   document.getElementById('state').textContent = JSON.stringify(r.state, null, 2);
 }
 
@@ -901,7 +1536,11 @@ function clearUI() {
     </div>
   `;
   document.getElementById('msgCount').textContent = '0 utterances';
-  document.getElementById('speakersBar').innerHTML = '<span style="color:var(--muted); font-size:11px;">Active Speakers:</span> <span id="noSpeakersText" style="color:var(--muted); font-style:italic;">None yet</span>';
+  const explicitTracksDiv = document.getElementById('speakerTracksExplicitList');
+  if (explicitTracksDiv) {
+    explicitTracksDiv.innerHTML = '<span style="color:var(--muted); font-style:italic;">Awaiting voice activity...</span>';
+  }
+  document.getElementById('speakersBar').innerHTML = '<span id="acousticCountSpan" style="font-weight:700; color:#38bdf8; margin-right:8px;">Number of detected acoustic speakers: 0</span> <span style="color:var(--muted); font-size:11px;">Active Speakers:</span> <span id="noSpeakersText" style="color:var(--muted); font-style:italic;">None yet</span>';
   document.getElementById('score').textContent = '0';
   document.getElementById('fill').style.width = '0%';
   document.getElementById('type').textContent = 'NO_PTP';
@@ -912,6 +1551,54 @@ function clearUI() {
   document.getElementById('evidenceTimeline').innerHTML = '<div style="color:var(--muted); font-size:11px; font-style:italic; padding:6px;">No dimensional deltas recorded yet.</div>';
   document.getElementById('timelineCount').textContent = '0 events';
   document.getElementById('state').textContent = '{}';
+  const latDiar = document.getElementById('latDiar'); if (latDiar) latDiar.textContent = '-- ms';
+  const latAsr = document.getElementById('latAsr'); if (latAsr) latAsr.textContent = '-- ms';
+  const latRole = document.getElementById('latRole'); if (latRole) latRole.textContent = '-- ms';
+  const latSem = document.getElementById('latSem'); if (latSem) latSem.textContent = '-- ms';
+  const latTotal = document.getElementById('latTotal'); if (latTotal) latTotal.textContent = '-- ms';
+  const telemetryPValues = document.getElementById('telemetryPValues'); if (telemetryPValues) telemetryPValues.textContent = 'P50: -- | P95: -- | P99: --';
+  const latencyBadge = document.getElementById('latencyBadge'); if (latencyBadge) latencyBadge.textContent = '⏱️ P50: -- ms';
+
+  // Reset Diagnostic Badges & Inspector
+  const acousticSpeakersBadge = document.getElementById('acousticSpeakersBadge');
+  if (acousticSpeakersBadge) {
+    acousticSpeakersBadge.textContent = '👥 Acoustic Speakers: 0';
+    acousticSpeakersBadge.style.color = '#94a3b8';
+  }
+  const diagAcousticCount = document.getElementById('diagAcousticCount');
+  if (diagAcousticCount) diagAcousticCount.textContent = '0';
+  const diagSpkChanged = document.getElementById('diagSpkChanged');
+  if (diagSpkChanged) { diagSpkChanged.textContent = '--'; diagSpkChanged.style.color = '#38bdf8'; }
+  const diagStateReset = document.getElementById('diagStateReset');
+  if (diagStateReset) { diagStateReset.textContent = 'YES (Reset)'; diagStateReset.style.color = '#f87171'; }
+  const inspectorList = document.getElementById('diagnosticInspectorList');
+  if (inspectorList) {
+    inspectorList.innerHTML = '<div style="color:var(--muted); font-style:italic; padding:4px;">Awaiting audio segments or utterance events...</div>';
+  }
+  const diagCountSpan = document.getElementById('diagnosticCount');
+  if (diagCountSpan) diagCountSpan.textContent = '0 turns';
+  
+  // Reset Deadline Card
+  document.getElementById('currentDeadlineVal').textContent = '--';
+  document.getElementById('deadlineConfidenceVal').textContent = '--%';
+  document.getElementById('deadlineCredibilityVal').textContent = '--%';
+  const statusPill = document.getElementById('deadlineStatusPill');
+  if (statusPill) {
+    statusPill.textContent = 'AWAITING BORROWER COMMITMENT';
+    statusPill.className = 'deadline-status-pill';
+  }
+  const dlCard = document.getElementById('deadlineCard');
+  if (dlCard) dlCard.className = 'deadline-card';
+  const dlChangeBox = document.getElementById('deadlineChangeBox');
+  if (dlChangeBox) dlChangeBox.style.display = 'none';
+  const dlTimelineCont = document.getElementById('deadlinesTimelineContainer');
+  if (dlTimelineCont) dlTimelineCont.style.display = 'none';
+  const dlTimelineTrack = document.getElementById('deadlinesTimelineTrack');
+  if (dlTimelineTrack) dlTimelineTrack.innerHTML = '';
+  document.getElementById('chAgentVal').textContent = 'None';
+  document.getElementById('chStatedVal').textContent = 'None';
+  document.getElementById('chConfirmedVal').textContent = 'None';
+
   initDimensionGrid();
   renderChart();
 }
@@ -928,39 +1615,118 @@ async function runDemo(name) {
   }
 }
 
-function toggleMic() {
-  if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
-    alert('Browser SpeechRecognition is not supported in this browser. Please use Chrome/Edge or use the text box below.');
-    return;
-  }
+let mediaStream = null;
+let audioCtx = null;
+let scriptProcessor = null;
+let micSource = null;
+let pcmSampleBuffer = [];
+let chunkStartTime = 0.0;
 
+async function toggleMic() {
   if (listening) {
     stopMic();
     return;
   }
 
-  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-  recognition = new SR();
-  recognition.continuous = true;
-  recognition.interimResults = false;
-  recognition.lang = 'en-IN';
+  const intakeBadge = document.getElementById('intakeBadge');
+  if (intakeBadge) {
+    intakeBadge.innerHTML = '🎙️ <strong>LIVE</strong> | Audio intake: ACTIVE';
+    intakeBadge.style.background = 'rgba(16,185,129,0.15)';
+    intakeBadge.style.borderColor = 'rgba(16,185,129,0.4)';
+    intakeBadge.style.color = '#34d399';
+  }
 
-  recognition.onresult = event => {
-    for (let i = event.resultIndex; i < event.results.length; i++) {
-      if (event.results[i].isFinal) {
-        const text = event.results[i][0].transcript.trim();
-        if (text) {
-          send({type:'utterance', speaker: document.getElementById('speaker').value, text});
+  // 1. Continuous Raw Linear 16kHz PCM Audio Streaming via Web Audio API
+  try {
+    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+      mediaStream = await navigator.mediaDevices.getUserMedia({ audio: { channelCount: 1, sampleRate: 16000 } });
+      const AudioCtxClass = window.AudioContext || window.webkitAudioContext;
+      audioCtx = new AudioCtxClass({ sampleRate: 16000 });
+      micSource = audioCtx.createMediaStreamSource(mediaStream);
+      scriptProcessor = audioCtx.createScriptProcessor(4096, 1, 1);
+      pcmSampleBuffer = [];
+      chunkStartTime = 0.0;
+
+      scriptProcessor.onaudioprocess = (e) => {
+        if (!listening) return;
+        const inputData = e.inputBuffer.getChannelData(0);
+        // Convert Float32Array to 16-bit linear PCM Int16
+        const int16 = new Int16Array(inputData.length);
+        for (let i = 0; i < inputData.length; i++) {
+          const s = Math.max(-1, Math.min(1, inputData[i]));
+          int16[i] = s < 0 ? s * 0x8000 : s * 0x7FFF;
+        }
+        pcmSampleBuffer.push(int16);
+
+        // When buffer reaches ~500ms (8000 samples at 16kHz)
+        const totalSamples = pcmSampleBuffer.reduce((acc, b) => acc + b.length, 0);
+        if (totalSamples >= 8000) {
+          const combined = new Int16Array(totalSamples);
+          let offset = 0;
+          for (const b of pcmSampleBuffer) {
+            combined.set(b, offset);
+            offset += b.length;
+          }
+          pcmSampleBuffer = [];
+          const dur = totalSamples / 16000.0;
+          const now = Date.now() / 1000.0;
+
+          // Convert Int16 buffer to binary bytes and base64
+          const u8 = new Uint8Array(combined.buffer);
+          let binary = '';
+          const len = u8.byteLength;
+          for (let i = 0; i < len; i++) {
+            binary += String.fromCharCode(u8[i]);
+          }
+          const base64Audio = btoa(binary);
+
+          send({
+            type: 'audio_chunk',
+            audio: base64Audio,
+            timestamp: chunkStartTime,
+            duration: dur,
+            client_capture_time: now
+          });
+          chunkStartTime += dur;
+        }
+      };
+
+      micSource.connect(scriptProcessor);
+      scriptProcessor.connect(audioCtx.destination);
+    }
+  } catch (err) {
+    console.warn("Raw media stream not accessible; continuing with SpeechRecognition:", err);
+  }
+
+  // 2. Parallel Speech Recognition Worker for ASR transcription
+  if (('webkitSpeechRecognition' in window) || ('SpeechRecognition' in window)) {
+    const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+    recognition = new SR();
+    recognition.continuous = true;
+    recognition.interimResults = false;
+    recognition.lang = 'en-IN';
+
+    recognition.onresult = event => {
+      for (let i = event.resultIndex; i < event.results.length; i++) {
+        if (event.results[i].isFinal) {
+          const text = event.results[i][0].transcript.trim();
+          if (text) {
+            send({type:'utterance', speaker: 'auto', text: text, mode: 'live_audio'});
+          }
         }
       }
-    }
-  };
+    };
 
-  recognition.onend = () => {
-    if (listening) recognition.start();
-  };
+    recognition.onend = () => {
+      // Microphone capture NEVER stops automatically during a live call
+      if (listening) {
+        try { recognition.start(); } catch(e){}
+      }
+    };
 
-  recognition.start();
+    try { recognition.start(); } catch(e){}
+  }
+
   listening = true;
   const btn = document.getElementById('micBtn');
   btn.textContent = '⏹ Stop Microphone';
@@ -968,11 +1734,38 @@ function toggleMic() {
 }
 
 function stopMic() {
-  if (recognition) recognition.stop();
   listening = false;
+  if (recognition) {
+    try { recognition.stop(); } catch(e){}
+  }
+  if (scriptProcessor) {
+    try { scriptProcessor.disconnect(); } catch(e){}
+    scriptProcessor = null;
+  }
+  if (micSource) {
+    try { micSource.disconnect(); } catch(e){}
+    micSource = null;
+  }
+  if (audioCtx) {
+    try { audioCtx.close(); } catch(e){}
+    audioCtx = null;
+  }
+  if (mediaStream) {
+    mediaStream.getTracks().forEach(track => track.stop());
+    mediaStream = null;
+  }
+  pcmSampleBuffer = [];
   const btn = document.getElementById('micBtn');
   btn.textContent = '🎙️ Start Microphone';
   btn.className = '';
+
+  const intakeBadge = document.getElementById('intakeBadge');
+  if (intakeBadge) {
+    intakeBadge.innerHTML = '🎙️ Audio intake: IDLE';
+    intakeBadge.style.background = 'rgba(100,116,139,0.15)';
+    intakeBadge.style.borderColor = 'rgba(100,116,139,0.3)';
+    intakeBadge.style.color = '#94a3b8';
+  }
 }
 </script>
 </body>

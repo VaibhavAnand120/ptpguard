@@ -21,17 +21,56 @@ class EvidenceHistoryEntry(BaseModel):
     delta: float
     state_before: float
     state_after: float
+    speaker_id: Optional[str] = None
+    speaker_role: Optional[str] = None
+    source: Optional[str] = None
+
+class DeadlineEvent(BaseModel):
+    timestamp: str
+    speaker: str
+    speaker_id: str
+    deadline: str                        # e.g. "10 October"
+    days_diff: Optional[int] = None      # Difference in days compared to previous (e.g. +10, -5, 0)
+    event_type: str                      # "initial", "postponed", "accelerated", "clarification", "agent_proposed", "confirmed_agent_proposal"
+    credibility_penalty_pct: int = 0     # e.g. -8 for -8%
+    penalty_raw: float = 0.0             # raw state delta applied to commitment
+    rationale: str
+    agent_pressure: bool = False
+    hardship_present: bool = False
+    borrower_initiated: bool = True
+
+
+class DeadlineState(BaseModel):
+    current_deadline: Optional[str] = None
+    original_deadline: Optional[str] = None
+    previous_deadline: Optional[str] = None
+    confidence: float = 0.0              # e.g. 0.94 (94%)
+    days_diff: Optional[int] = None      # Current shift magnitude (+10, -5)
+    last_penalty_pct: int = 0            # Current change impact in % (e.g. -8)
+    postpone_count: int = 0
+    history: List[DeadlineEvent] = Field(default_factory=list)
+    agent_proposed_deadline: Optional[str] = None
+    borrower_stated_deadline: Optional[str] = None
+    borrower_confirmed_deadline: Optional[str] = None
 
 
 class Utterance(BaseModel):
     speaker: str = Field(default="auto", description="agent, borrower, third_party, third_party_background, or auto")
     text: str
+    mode: str = Field(default="auto", description="live_audio, auto_text, manual_simulation")
+    speaker_id: Optional[str] = None
     detected_speaker: Optional[str] = None
     speaker_confidence: Optional[float] = None
     speaker_rationale: Optional[str] = None
     is_background_speech: bool = False
     background_speaker_info: Optional[str] = None
     background_transcript: Optional[str] = None
+    start_time: Optional[float] = None
+    end_time: Optional[float] = None
+    voice: Optional[str] = None
+    voice_id: Optional[str] = None
+    voice_features: Optional[Dict[str, Any]] = None
+    chunk_id: Optional[str] = None
 
 
 class Evidence(BaseModel):
@@ -42,7 +81,18 @@ class Evidence(BaseModel):
     amount: Optional[float] = None
     date: Optional[str] = None
 
-    # Speaker separation metadata
+    # Track agent proposed vs borrower stated separately
+    agent_proposed_date: Optional[str] = None
+    agent_proposed_amount: Optional[float] = None
+    borrower_stated_date: Optional[str] = None
+    borrower_stated_amount: Optional[float] = None
+
+    # Processing mode
+    mode: str = "auto"
+
+    # Speaker identity and role separation
+    speaker_id: Optional[str] = None
+    speaker_role: Optional[str] = None
     detected_speaker: Optional[str] = None
     speaker_confidence: Optional[float] = None
     speaker_rationale: Optional[str] = None
@@ -90,8 +140,16 @@ class ConversationState(BaseModel):
     date: Optional[str] = None
     date_confirmed: bool = False
 
+    # Distinct tracking of agent proposed vs borrower stated terms
+    agent_proposed_date: Optional[str] = None
+    agent_proposed_amount: Optional[float] = None
+    borrower_stated_date: Optional[str] = None
+    borrower_stated_amount: Optional[float] = None
+
     active_speakers: List[str] = Field(default_factory=list)
+    speaker_roles: Dict[str, Dict[str, Any]] = Field(default_factory=dict)
     transcript: List[Dict[str, Any]] = Field(default_factory=list)
+    deadline_state: DeadlineState = Field(default_factory=DeadlineState)
 
     # Backward compatibility indicators
     ptp_detected: bool = False
@@ -123,4 +181,16 @@ class AnalysisResponse(BaseModel):
     normalized_state: Dict[str, float]
     score_history: List[int]
     evidence_history: List[EvidenceHistoryEntry]
+    speaker_id: Optional[str] = None
+    speaker_role: Optional[str] = None
+    role_status: Optional[str] = None
+    role_confidence: Optional[float] = None
+    mode: Optional[str] = None
+    speaker_roles: Dict[str, Dict[str, Any]] = Field(default_factory=dict)
+    detected_acoustic_speakers: int = 0
+    diagnostics: Dict[str, Any] = Field(default_factory=dict)
+    sortformer_tracks: Dict[str, Any] = Field(default_factory=dict)
+    audio_intake: Dict[str, Any] = Field(default_factory=dict)
+    deadline_state: DeadlineState = Field(default_factory=DeadlineState)
+    telemetry: Dict[str, Any] = Field(default_factory=dict)
     state: Dict[str, Any]

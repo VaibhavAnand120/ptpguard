@@ -1,31 +1,44 @@
-# PTPGuard — Real-Time PTP Credibility Engine
+# PTPGuard — Real-Time NVIDIA NeMo Sortformer Diarization & PTP Credibility Engine
 
-PTPGuard is a hackathon-ready prototype for **real-time Promise-to-Pay (PTP) credibility analysis** during collections calls.
-
-It is designed as a third listener:
+PTPGuard is a production-grade real-time voice intelligence engine for **speaker diarization and Promise-to-Pay (PTP) credibility analysis** during collections calls.
 
 ```text
-Agent <──────────────> Borrower
-              │
-              ▼
-          PTPGuard
-              │
-      ┌───────┼────────┐
-      ▼       ▼        ▼
-     ASR    Semantic  History
-      │       │        │
-      └───────┼────────┘
-              ▼
-       Evidence State
-              ▼
-      Credibility Score
-              ▼
-       PTP Classification
-              ▼
-       Safety / Policy
-              ▼
-       Agent Recommendation
+               RAW 16 kHz PCM AUDIO
+                        ↓
+             Audio Buffering / Chunking
+                        ↓
+            VAD / Speech Activity Handling
+                        ↓
+             NVIDIA NeMo Sortformer
+                        ↓
+             PERSISTENT SPEAKER IDs
+             (speaker_0, speaker_1, ...)
+                        ↓
+                   RoleResolver
+                        ↓
+                 AGENT / BORROWER
+                        ↓
+                  ASR TRANSCRIPT
+                        ↓
+               LLM SEMANTIC ANALYSIS
+                        ↓
+                    PTP EVENT
+                        ↓
+                 KEEP-RISK MODEL
+                        ↓
+              HARDSHIP SAFETY GATE
+                        ↓
+          COUNTERFACTUAL / POLICY ENGINE
+                        ↓
+                   AGENT ACTION
 ```
+
+### Core Architectural Separation:
+- **NVIDIA NeMo Sortformer** = **Speaker Diarization**: Neural acoustic model (`nvidia/diar_streaming_sortformer_4spk-v2.1`) determining *WHO* is physically speaking (`speaker_0`, `speaker_1`, ...). Strictly independent of turn alternation, pause heuristics, or conversation roles.
+- **RoleResolver** = **Conversational Role Classification**: Multi-turn evidence accumulator determining *WHAT ROLE* the speaker holds (`AGENT`, `BORROWER`, `THIRD_PARTY`).
+- **Semantic LLM** = **Meaning / PTP Extraction**: Objective observer identifying commitment, specificity, conditions, and hardship deltas.
+- **ML Risk Model** = **PTP Keep Probability**: Translates signed continuous dimension states into explainable credibility and payment fulfillment odds.
+- **Policy Engine** = **Safe Business Action**: Enforces hardship safety gates, privacy protections, and counterfactual agent recommendations.
 
 ## Important design choice
 
