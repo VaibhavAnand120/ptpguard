@@ -74,28 +74,6 @@ Output STRICT JSON ONLY:
 }
 """
 
-def fallback_generative_reply(borrower_text: str, ptype: str, amount: float, salary_day: int, hardship: bool) -> str:
-    """
-    Dynamic generative fallback that extracts the borrower's exact words,
-    phrases, dates, and concepts to construct an unscripted response without canned templates.
-    """
-    clean_text = borrower_text.strip()
-    words = clean_text.split()
-    
-    # Extract any quoted or key phrasing
-    snippet = " ".join(words[:8]) if len(words) > 8 else clean_text
-    
-    if hardship or ptype == "GENUINE_INFEASIBLE":
-        return f"Aapne jo bataya ki '{snippet}', hum aapki sthiti samajh rahe hain. RBI guidelines ke mutabiq aap par dabav nahi banaya jayega. Kya hum aapki EMI reschedule karein ya {salary_day} tareekh ke baad set karein?"
-    elif ptype == "ESCAPE_PROMISE":
-        return f"Aap keh rahe hain '{snippet}', par itna lamba delay system allow nahi karega. Account par penalty rokne ke liye, kya aap abhi link se sirf ek chhota token amount jama kar sakte hain?"
-    elif ptype == "THIRD_PARTY_PROMISE":
-        return f"Aapne jo bataya ki '{snippet}', dhanyawad. Kripya unhe zaroor suchit kar dijiyega ki ₹{amount:,.0f} overdue hai taaki unka CIBIL score prabhavit na ho."
-    elif ptype == "REPEAT_PROMISER":
-        return f"Aapka kehna hai ki '{snippet}', par record ke mutabiq pichle commitments miss hue hain. Kripya ₹{amount:,.0f} ka niftaran turant karein taaki recovery team escalate na kare."
-    else:
-        return f"Ji bilkul, aapne bataya ki '{snippet}'. Humne aapke bataye nirdharan ko system me update kar diya hai. Link aapke WhatsApp/SMS par bhej diya gaya hai."
-
 
 class GeminiPTPClassifier:
     def __init__(self, api_key: Optional[str] = None):
@@ -226,6 +204,6 @@ Output STRICT JSON ONLY."""
         smooth_prob = float(min(0.96, max(0.04, raw_prob + word_shift)))
 
         res["calibrated_keep_probability"] = round(smooth_prob, 3)
-        res["agent_firming_reply"] = fallback_generative_reply(borrower_latest_utterance, ptype, overdue_amount, salary_credit_day, is_hardship)
+        res["agent_firming_reply"] = None
         res["source"] = "Local Calibrated Engine (Fallback)"
         return res

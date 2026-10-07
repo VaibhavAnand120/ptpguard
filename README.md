@@ -227,22 +227,11 @@ Open **`http://127.0.0.1:8000`** in your browser.
 ```text
 ptpguard/
 ├── server.py                        # FastAPI live server (/api/chat-turn, /api/analyze, /api/scenarios, WebSockets)
-├── gemini_classifier.py             # Google Gemini Flash Neural Cascade & Unscripted Dialogue Copilot
+├── gemini_classifier.py             # Google Gemini Flash Neural Cascade & 100% Unscripted Dialogue Copilot
 ├── ptp_engine.py                    # Multimodal Feature Extractor, Platt Calibration, Bayesian Prior
 ├── synthetic_generator.py           # 1,200 multi-modal synthetic collection calls generator
 ├── counterfactual_simulator.py      # Off-Policy Evaluation (OPE) RCT recovery simulator
 ├── evaluate_benchmarks.py           # Evaluation suite (ROC-AUC, ECE, Confusion Matrix, Latency)
-├── test_voice_inference.py          # Standalone voice inference tester
-│
-├── app/                             # Core modular application package
-│   ├── main.py                      # FastAPI entrypoint
-│   ├── config.py                    # App configuration
-│   ├── schemas.py                   # Pydantic data models
-│   ├── state.py                     # 10-dimensional signed evidence tracker
-│   ├── scoring.py                   # Platt & Soft-saturation scoring engine
-│   ├── policy.py                    # RBI compliance & action nudges
-│   ├── semantic/                    # Semantic providers (Gemini, Ollama, Rules)
-│   └── voice/                       # Audio queue, VAD, alignment & NVIDIA NeMo Sortformer diarization
 │
 ├── static/
 │   ├── index.html                   # Interactive Live Cockpit (Waveform, Speedometer, Supervisor Audit)
@@ -252,10 +241,9 @@ ptpguard/
 ├── models/                          # Serialized trained models
 ├── reports/                         # High-res benchmark plots & evaluation summaries
 │
-├── requirements.txt                 # Python dependencies
-├── requirements-optional.txt        # Optional GPU/torch dependencies
-├── Dockerfile                       # Container definition
-├── docker-compose.yml               # Container orchestration
+├── requirements.txt                 # Clean Python dependencies
+├── .env.example                     # Environment template
+├── .gitignore                       # Ignored secret environment & python caches
 ├── PITCH_DECK_GUIDE.md              # 10-Slide presentation guide for competition judges
 └── README.md                        # Master documentation
 ```
