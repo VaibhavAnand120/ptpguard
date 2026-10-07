@@ -1,0 +1,41 @@
+{
+  "dataset_split": {
+    "total_records": 1200,
+    "train_samples": 900,
+    "test_samples": 300
+  },
+  "model_performance": {
+    "overall_accuracy": 1.0,
+    "macro_precision": 1.0,
+    "macro_recall": 1.0,
+    "macro_f1": 1.0,
+    "macro_roc_auc": 1.0,
+    "per_class_auc": {
+      "GENUINE_FEASIBLE": 1.0,
+      "GENUINE_INFEASIBLE": 1.0,
+      "ESCAPE_PROMISE": 1.0,
+      "THIRD_PARTY_PROMISE": 1.0,
+      "REPEAT_PROMISER": 1.0,
+      "AGENT_PUSHED": 1.0
+    },
+    "expected_calibration_error_ece": 0.0247
+  },
+  "regulatory_safety_hardship": {
+    "total_hardship_accounts_tested": 59,
+    "hardship_misclassified_as_escape": 0,
+    "hardship_escape_misclassification_rate": 0.0,
+    "rbi_compliance_rating": "PASS - ZERO TOLERANCE MET"
+  },
+  "streaming_latency_budget_ms": {
+    "p50_latency_ms": 5.3,
+    "p95_latency_ms": 6.75,
+    "p99_latency_ms": 8.55,
+    "target_latency_budget_ms": 300.0,
+    "latency_status": "EXCELLENT (<15ms, 20x faster than 300ms budget)"
+  },
+  "artifacts_generated": {
+    "confusion_matrix": "reports\\confusion_matrix.png",
+    "roc_curves": "reports\\roc_curves.png",
+    "calibration_curve": "reports\\calibration_curve.png"
+  }
+}

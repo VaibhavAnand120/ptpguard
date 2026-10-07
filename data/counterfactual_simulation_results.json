@@ -1,0 +1,29 @@
+{
+  "portfolio_summary": {
+    "total_accounts_simulated": 1200,
+    "total_overdue_portfolio_value": 20028100
+  },
+  "baseline_incumbent_policy": {
+    "gross_recovery": 8099200.0,
+    "touch_and_escalation_costs": 220750.0,
+    "net_recovery": 7878450.0,
+    "broken_ptp_count": 740,
+    "wasted_parking_days": 5180,
+    "hardship_harassment_complaints": 23
+  },
+  "creditnirvana_realtime_copilot": {
+    "gross_recovery": 10222720.0,
+    "touch_and_escalation_costs": 78169.0,
+    "net_recovery": 10144551.0,
+    "broken_ptp_count": 463,
+    "wasted_parking_days": 425,
+    "hardship_harassment_complaints": 0
+  },
+  "impact_uplift": {
+    "absolute_net_recovery_lift_inr": 2266101.0,
+    "percentage_net_recovery_uplift": 28.76,
+    "wasted_parking_days_saved": 4755,
+    "wasted_days_saved_per_1000_accounts": 3962.5,
+    "field_visit_cost_reduction_pct": 64.59
+  }
+}
