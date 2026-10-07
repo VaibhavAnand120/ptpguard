@@ -682,7 +682,16 @@
           <!-- Quick Text Input Box with Live Word-by-Word Typing Hook -->
           <div class="custom-input-box">
             <input type="text" id="customTextInput" placeholder="Type or speak borrower's words (e.g. 'Dukan me chori ho gayi, 15 ko dunga')..." oninput="onUserTyping(this.value)" onkeydown="if(event.key==='Enter') submitCustomText()">
-            <button class="btn btn-primary" onclick="submitCustomText()">Send & Evaluate</button>
+            <button class="btn btn-primary" onclick="submitCustomText()">Send & Reply</button>
+          </div>
+
+          <!-- Quick Borrower Response Simulation Chips -->
+          <div style="display:flex; gap:6px; flex-wrap:wrap; margin-top:8px; margin-bottom:4px;">
+            <span style="font-size:11px; color:var(--text-muted); align-self:center;">Quick Test:</span>
+            <button class="chip" style="font-size:11px; padding:3px 8px; cursor:pointer;" onclick="fillAndScore('Arrey abhi driving kar raha hoon, agle hafte dekhta hoon')">🚗 "Driving, agle hafte"</button>
+            <button class="chip" style="font-size:11px; padding:3px 8px; cursor:pointer;" onclick="fillAndScore('Bhaiya shop me chori ho gayi hai, 15 tareekh ko wholesale payment aayega tabhi de paunga')">🏪 "Shop me chori, 15 ko dunga"</button>
+            <button class="chip" style="font-size:11px; padding:3px 8px; cursor:pointer;" onclick="fillAndScore('Theek hai bhaiya ₹1,000 token link bhej do abhi GPay se pay kar deta hoon')">💳 "₹1,000 token link bhej do"</button>
+            <button class="chip" style="font-size:11px; padding:3px 8px; cursor:pointer;" onclick="fillAndScore('Kal subah 11 baje Axis Bank branch me cash jama kar dunga pakka')">🏦 "Kal subah 11 baje cash pakka"</button>
           </div>
 
           <!-- Interactive Simulation Controls -->
@@ -1438,14 +1447,23 @@
       }, 16);
     }
 
+    function fillAndScore(text) {
+      const input = document.getElementById("customTextInput");
+      input.value = text;
+      onUserTyping(text);
+      setTimeout(() => {
+        submitCustomText();
+      }, 350);
+    }
+
     function startInteractiveAgentConversation() {
       resetCallStream();
       document.getElementById("transcriptFeed").innerHTML = "";
       const name = currentScenario ? currentScenario.customer_name : "Rahul Sharma";
       const amt = currentScenario ? currentScenario.overdue_amount.toLocaleString() : "14,500";
-      const openingMsg = `Namaste ${name} ji, main Axis Bank collections team se baat kar raha hoon. Aapka loan EMI overdue hai ₹${amt}. Ye payment kab tak clear kar rahe hain?`;
+      const openingMsg = `Namaste ${name} ji, main Axis Bank collections department se baat kar raha hoon. Aapke personal loan account par ₹${amt} ka EMI overdue hai jo pichle hafte aana tha. Main isiliye call kar raha hoon taaki account standard rahe aur extra late charges na lagein. Ye payment aap kab tak clear kar rahe hain?`;
       
-      document.getElementById("micStatusText").innerHTML = "🤖 Agent is typing opening question...";
+      document.getElementById("micStatusText").innerHTML = "🤖 Agent is calling and introducing the overdue EMI...";
       typeAgentTurn(openingMsg, () => {
         document.getElementById("micStatusText").innerHTML = '🎙️ Agent has asked the question! Click <strong>"Speak into Mic"</strong> or type below to reply in Hindi or English...';
       });

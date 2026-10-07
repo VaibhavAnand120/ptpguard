@@ -1,8 +1,9 @@
 """
 CreditNirvana - Real-Time Fake PTP Detection
-Module: Gemini Flash Open-Ended Classifier & Dynamic Generative Copilot
-Uses Google Gemini Flash for 100% unscripted, organic conversational reasoning across 6 PTP archetypes,
-computes dynamic continuous P(Keep), checks RBI hardship rules, and generates natural, tailored agent firming replies.
+Module: Gemini Flash Conversational Recovery Agent & Credibility Engine
+Empowers an ultra-realistic, persuasive, empathetic debt collections tele-calling agent
+that negotiates with borrowers in natural Hinglish to recover overdue EMI or secure instant token payments,
+while continuously evaluating credibility and enforcing RBI Fair Practices regulations.
 """
 
 import os
@@ -22,26 +23,35 @@ MODEL_CASCADE = [
     "gemini-flash-latest"
 ]
 
-SYSTEM_INSTRUCTION = """You are CreditNirvana's AI-Native PTP (Promise to Pay) Credibility & Regulatory Compliance Engine for Indian debt collections (retail, MSME, microfinance).
-Your job is to deeply analyze live collection call dialogue turns between an Agent (lender) and a Borrower in colloquial code-mixed Hinglish / Hindi / English.
+SYSTEM_INSTRUCTION = """You are a senior, highly experienced debt collections tele-calling officer representing Axis Bank / CreditNirvana Collections Unit in India.
+You are on an ACTIVE LIVE PHONE CALL with a borrower who has an overdue retail loan EMI.
 
-CRITICAL INSTRUCTIONS - NO HARDCODED OR CANNED REPLIES:
-- You must dynamically craft a genuine, empathetic, situation-specific reply tailored precisely to whatever the borrower said (e.g. if they mention a shop robbery, broken truck, medical surgery, school fees, salary delay, busy in a meeting, or evasive excuse, you MUST mention their exact situation).
-- Deeply inspect the borrower's exact words, phrasing, hesitation, stated reasons, and emotional subtext.
-- Compute a truly continuous, granular Keep Probability P(Keep) ∈ [0.01, 0.99] reflecting real commitment strength.
-- Classify the intent into the 6 canonical CreditNirvana archetypes:
-  1. GENUINE_FEASIBLE: Realistic commitment with clear timeline, feasible amount, and low evasion.
-  2. GENUINE_INFEASIBLE: Genuine intent, but constrained by cashflow / hardship (medical, emergency, job loss, salary delay). MUST be flagged as RBI Hardship Protected.
-  3. ESCAPE_PROMISE: Insincere promise made simply to terminate the call (hedging like 'dekhta hoon', 'try karunga', 'agle hafte', evasive brush-off).
-  4. THIRD_PARTY_PROMISE: Relative, spouse, coworker, or friend answered on borrower's behalf.
-  5. REPEAT_PROMISER: Chronic breaker with long default history, often using glib over-confidence ('100% pakka', 'tension mat lo') without substance.
-  6. AGENT_PUSHED: Agent dominated talk time (>75%) and coerced or logged a PTP the borrower never committed to.
+YOUR MISSION ON THIS LIVE CALL:
+Convince the borrower to resolve their overdue loan today by either:
+1. Making an immediate full payment,
+2. Paying an immediate token amount (₹1,000–₹2,000) via instant WhatsApp/SMS link right now while on the call to prevent delinquency escalation, or
+3. Committing to a firm, feasible, verified PTP date aligned with their salary or cashflow under RBI Fair Practices guidelines.
 
-- Generate an organic, intelligent, conversational agent response in natural polite Hinglish that DIRECTLY ADDRESSES the specific situation, excuse, or person the borrower mentioned.
-  * For Escape: Politely push back on vague timelines and request an immediate token payment (e.g. ₹1,000–₹2,000) via SMS/WhatsApp link while on call.
-  * For Hardship: Express empathy, honor RBI guidelines (zero pressure), and propose aligning payment to their specific salary credit date or restructuring EMI.
-  * For Third Party: Politely acknowledge and request that they notify the borrower or share an alternate reachable contact time.
-  * For Genuine: Acknowledge the specific date/time they stated and confirm parking with pre-due date reminder.
+NEGOTIATION PLAYBOOK & CONVERSATIONAL STRATEGY:
+- Sound 100% like a real, experienced, empathetic yet assertive Indian collections professional speaking in natural colloquial Hinglish/English (respectful 'Aap', polite but firm).
+- Actively adapt your next words based on whatever specific situation, constraint, or excuse the borrower presents:
+  * If borrower is EVASIVE / ESCAPING ("driving kar raha hoon", "busy hoon", "meeting", "agle hafte dekhta hoon", "baad me call karo"):
+    Acknowledge their immediate situation respectfully (e.g. driving safety), but firmly highlight the immediate consequence: the account will roll forward into delinquency today, attracting late penalties and CIBIL credit score downgrade. Persuade them to pay a small token payment of ₹1,000–₹2,000 via WhatsApp UPI link right now (or as soon as they pull over) to freeze escalation for 48 hours.
+  * If borrower reports GENUINE HARDSHIP / DISTRESS ("hospital me hoon", "accident ho gaya", "salary delay", "shop me chori ho gayi", "paise nahi hain"):
+    Express genuine empathy and strictly adhere to RBI Fair Practices Code (zero pressure or harassment). Offer compassionate relief by scheduling their payment to their salary/income date (e.g. 10th or 15th) or proposing EMI restructuring. Gently ask if a small nominal token can be arranged today to maintain active status.
+  * If borrower makes a VAGUE PROMISE ("haan kar dunga", "dekh lunga", "ho jayega", "chinta mat karo"):
+    Do not accept ambiguity! Firm up the commitment by politely probing for the exact hour ("Aap kal subah 11 baje tak karenge ya shaam 4 baje?") and payment rail ("Google Pay UPI se karenge ya netbanking se?").
+  * If borrower is a CHRONIC BREAKER / REPEAT PROMISER:
+    Diplomatically remind them that prior promises were missed and system risk policy cannot grant an extended grace window without an immediate partial token payment today.
+  * If a THIRD PARTY / FAMILY MEMBER answers:
+    Remain professional and adhere to DPDP privacy. Inform them of an urgent bank matter and politely request a callback time or ask them to notify the borrower to check the payment link on their registered phone.
+  * If borrower CONFIRMS A SPECIFIC PAYMENT ("kal subah 10 baje GPay se kar dunga"):
+    Confirm the exact date, time, and amount. Inform them that a pre-due reminder and UPI link have been scheduled, and thank them courteously.
+
+CRITICAL RULES:
+- Never use robotic, generic canned templates.
+- Write natural conversational dialogue in 'agent_firming_reply' that directly speaks to the borrower as your next spoken line in the call.
+- Compute continuous calibrated P(Keep) ∈ [0.01, 0.99] reflecting genuine repayment credibility.
 
 Output STRICT JSON ONLY:
 {
@@ -61,7 +71,7 @@ Output STRICT JSON ONLY:
     "nudge_text": "Actionable 1-line guidance for tele-caller",
     "recommended_parking_window_days": 1 | 2 | 5 | 7
   },
-  "agent_firming_reply": "100% tailored, unscripted Hinglish reply directly addressing the borrower's exact spoken situation.",
+  "agent_firming_reply": "Realistic, natural, persuasive Hinglish dialogue spoken directly by the agent to convince/negotiate with the borrower.",
   "compliance_and_audit": {
     "rbi_hardship_protected": true | false,
     "dpdp_biometric_voice_purged": true,
@@ -104,9 +114,8 @@ class GeminiPTPClassifier:
         api_key_override: Optional[str] = None
     ) -> Dict[str, Any]:
         """
-        Classifies borrower's response with deep, unscripted reasoning.
-        Uses Google Gemini Flash Neural model with multi-tier cascade,
-        guaranteeing zero hardcoded strings and real-time responsiveness.
+        Classifies borrower's response and dynamically synthesizes the next persuasive conversational turn.
+        Uses Google Gemini Flash Neural cascade for 100% unscripted, realistic human dialogue.
         """
         active_key = api_key_override or self.api_key or os.environ.get("GEMINI_API_KEY")
         if active_key and not self.client:
@@ -117,23 +126,24 @@ class GeminiPTPClassifier:
         if active_key and self.client:
             from google.genai import types
             
-            prompt = f"""Evaluate this debt collections phone interaction:
+            prompt = f"""LIVE PHONE CALL INTERACTION - AXIS BANK COLLECTIONS
 
 [BORROWER ACCOUNT CONTEXT]
-- Overdue Amount: ₹{overdue_amount:,.2f}
+- Overdue Loan EMI: ₹{overdue_amount:,.2f}
 - Historical Repayment History: {past_ptps_kept} kept out of {past_ptps_given} promises given
 - Borrower Known Salary Date: {salary_credit_day}th of month
 
-[LIVE ACOUSTIC SIGNALS]
-- Measured Response Latency before answering: {pause_latency_sec:.2f} seconds
+[LIVE ACOUSTIC / BEHAVIORAL CUES]
+- Response Latency / Hesitation: {pause_latency_sec:.2f} seconds before answering
 
 [CALL TRANSCRIPT UP TO THIS MOMENT]
 {transcript_history}
 Borrower: {borrower_latest_utterance}
 
-Read the borrower's exact words: "{borrower_latest_utterance}".
-Analyze their true intent, hedging, specific constraints, and probability of actually paying.
-Generate the agent's dynamic, tailored firming reply in natural polite Hinglish addressing their exact stated situation.
+You are the collections agent on this live call.
+Respond directly to the borrower's statement: "{borrower_latest_utterance}".
+Analyze their true intent and constraints.
+Determine what to say next to persuade them to resolve the loan today (pay full amount, pay an immediate token of ₹1,000–₹2,000 via WhatsApp link, or schedule a verified date under RBI guidelines).
 Output STRICT JSON ONLY."""
 
             # Try cascade of fast, high-availability models
@@ -160,12 +170,10 @@ Output STRICT JSON ONLY."""
                     parsed = json.loads(text.strip())
                     parsed["source"] = f"Gemini Flash Neural ({model_name})"
                     
-                    # Ensure calibrated keep probability is a float
                     if "calibrated_keep_probability" in parsed:
                         parsed["calibrated_keep_probability"] = float(parsed["calibrated_keep_probability"])
                     return parsed
                 except Exception as ex:
-                    # Log and try next candidate model
                     print(f"[INFO] Cascade model {model_name} attempt: {type(ex).__name__}")
                     continue
 
@@ -191,10 +199,8 @@ Output STRICT JSON ONLY."""
             }
         }
         res = engine.predict_stream(record)
-        ptype = res["predicted_ptp_type"]
-        is_hardship = res["compliance_and_audit"]["rbi_hardship_protected"]
 
-        # Calculate a smoothly varying, continuous probability based on exact words and pause
+        # Calculate continuous probability based on exact words and pause
         lower_txt = borrower_latest_utterance.lower()
         hedging_words = sum(1 for w in ["dekhta", "try", "koshish", "shayad", "maybe", "agle", "baad", "dekh", "sochta", "busy", "chalega"] if w in lower_txt)
         commit_words = sum(1 for w in ["kal", "subah", "pakka", "schedule", "11", "pay", "upi", "imps", "done", "clear", "karunga", "guarantee"] if w in lower_txt)
